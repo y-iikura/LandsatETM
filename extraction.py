@@ -5,6 +5,8 @@
 	Original data : Landsat 7 ETM+ : geotif format
 		Specified Region from DEM Geotif Image region 	
 """
+# extraction.py ELP108R032_7T20020630 template.txt
+
 import sys
 import os
 import numpy as np
@@ -13,10 +15,13 @@ import convert_util as ut
 import proj_util as pr
 
 param=sys.argv
-if len(param)!=2:
-    print 'Usage: extract.py file_name'
+if len(param)!=3:
+    print 'Usage: extraction.py scene_name area_file'
 
-fname=param[1]
+
+fscene=param[1]
+
+fname=param[2]
 f=open(fname)
 lines=f.readlines()
 f.close()
@@ -41,21 +46,26 @@ xmax=int((pr.xe-pr.xs)/pr.dx)
 ymax=int((pr.ye-pr.ys)/pr.dy)
 print xmax,ymax
 
-fold='ELP108R032_7T20020630'
-os.chdir(fold)
+#fold='ELP108R032_7T20020630'
+os.chdir(fscene)
 
-fname='p108r032_7t20020630'
+list=os.listdir('.')
 
-sat=ut.original(fname+'_z54_nn10.tif')
-sat.image.shape
-#sat.display('sat',600,600)
-#cv2.destroyWindow('sat')
+for name in list:
+  if name.find('.met')!=-1:
+    fname=name[:-4]
 
-conv=ut.convert(sat,xmax,ymax)
-new=conv.convert(0.0,0.0)
-#cv2.imshow('new',cv2.resize(new,(600,600)))
-#cv2.destroyWindow('new')
+#fname='p108r032_7t20020630'
 
-pr.write_tif('../new.tif',new,1)
+for band in [10,20,30,40,50,70]:
+  sat=ut.original(fname+'_z54_nn'+str(band)+'.tif')
+  sat.image.shape
+  #sat.display('sat',600,600)
+  #cv2.destroyWindow('sat')
+  conv=ut.convert(sat,xmax,ymax)
+  new=conv.convert(0.0,0.0)
+  #cv2.imshow('new',cv2.resize(new,(600,600)))
+  #cv2.destroyWindow('new')
+  pr.write_tif('../band'+str(band/10)+'.tif',new,1)
 
 exit()
