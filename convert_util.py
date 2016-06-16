@@ -202,7 +202,7 @@ def gwrite(sat,fnew):
 
 def incident(dem,sat) :
   el=np.pi*sat.sun_el/180 ; az=np.pi*sat.sun_az/180
-  imax,jmax=dem.shape
+  jmax,imax=dem.shape
   a=(np.roll(dem,-1,1)-np.roll(dem,1,1))/60.0
   a[:,0]=a[:,1] ; a[:,imax-1]=a[:,imax-2] 
   b=(np.roll(dem,1,0)-np.roll(dem,-1,0))/60.0
