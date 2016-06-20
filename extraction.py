@@ -6,7 +6,7 @@
 		Specified Region from DEM Geotif Image region 	
 """
 # cd /Volumes/Transcend/LandsatETM+
-# extraction.py ELP108R032_7T20020630 template.txt NEW
+# extraction.py ELP108R032_7T20020630 template.txt NEW2 0.0 0.0
 
 import sys
 import os
@@ -16,12 +16,20 @@ import convert_util as ut
 import proj_util as pr
 
 param=sys.argv
-if len(param)!=3:
-    print 'Usage: extraction.py scene_name area_file new_folder'
+if len(param)!=4 and len(param)!=6:
+    print 'Usage: extraction.py scene_name area_file(dem.tif) new_folder (dx=0.0 dy=0.0)'
+    exit()
 
 fscene=param[1]
 fname=param[2]
 fnew=param[3]
+if len(param)!=6:
+  dx=float(param[4])
+  dy=float(param[5])
+else:
+  dx=0.0
+  dy=0.0
+
 
 if os.path.isdir(fnew) == False: os.mkdir(fnew)  
 
@@ -66,7 +74,7 @@ if flag:
 for band in [10,20,30,40,50,70]:
   sat.read_band(band)
   conv=ut.convert(sat,xmax,ymax)
-  new=conv.convert(0.0,0.0)
+  new=conv.convert(dx,dy)
   pr.write_tif('../'+fnew+'/band'+str(band/10)+'.tif',new,1)
 
 ut.gwrite(sat,fnew)

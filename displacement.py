@@ -84,6 +84,8 @@ for band in [10,20,30,40,50,70]:
   new=conv.convert(0.0,0.0)
   new32=new.astype(np.float32)
   print ' Band '+str(band/10)+':'
-  print cv2.phaseCorrelate(inc,new32)
+  #print cv2.phaseCorrelate(inc,new32)
+  dd,dt=cv2.phaseCorrelate(inc,new32)
+  print -pr.dx*dd[0],pr.dy*dd[1],dt
 
 exit()
