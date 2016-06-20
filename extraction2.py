@@ -6,7 +6,7 @@
 		Specified Region from DEM Geotif Image region 	
 """
 # cd /Volumes/Transcend/LandsatETM
-# extraction2.py ELP108R032_7T20020630 new_utm.tif NEW
+# extraction2.py ELP108R032_7T20020630 new_utm.tif
 
 import sys
 import os
@@ -17,17 +17,14 @@ import proj_util as pr
 
 param=sys.argv
 if len(param)!=3:
-    print 'Usage: extraction2.py scene_name dem.tif new_folder'
+    print 'Usage: extraction2.py scene_name dem.tif'
+    exit()
 
 fscene=param[1]
 fname=param[2]
-fnew=param[3]
 
 #fscene='ELP108R032_7T20020630'
 #fname='new_utm.txt'
-#fnew='NEW'
-
-if os.path.isdir(fnew) == False: os.mkdir(fnew)  
 
 gt,wkt,dem=pr.read_tif(fname)
 ymax,xmax=dem.shape
@@ -88,7 +85,5 @@ for band in [10,20,30,40,50,70]:
   new32=new.astype(np.float32)
   print ' Band '+str(band/10)+':'
   print cv2.phaseCorrelate(inc,new32)
-  #pr.write_tif('../'+fnew+'/band'+str(band/10)+'.tif',new,1)
 
-#ut.gwrite(sat,fnew)
 exit()
