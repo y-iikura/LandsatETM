@@ -6,7 +6,7 @@
 		Specified Region from DEM Geotif Image region 	
 """
 # cd /Volumes/Transcend/LandsatETM
-# extraction2.py ELP108R032_7T20020630 new_utm.tif
+# displacement.py ELP108R032_7T20020630 new_utm.tif
 
 import sys
 import os
@@ -17,7 +17,7 @@ import proj_util as pr
 
 param=sys.argv
 if len(param)!=3:
-    print 'Usage: extraction2.py scene_name dem.tif'
+    print 'Usage: displacement.py scene_name dem.tif'
     exit()
 
 fscene=param[1]

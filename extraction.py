@@ -23,7 +23,7 @@ if len(param)!=4 and len(param)!=6:
 fscene=param[1]
 fname=param[2]
 fnew=param[3]
-if len(param)!=6:
+if len(param)==6:
   dx=float(param[4])
   dy=float(param[5])
 else:
