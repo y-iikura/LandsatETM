@@ -1,12 +1,13 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
- Extraction of Landsat Image 
+ Check of displacement between Landsat Image and DEM by phase only correlation
 	Original data : Landsat 7 ETM+ : geotif format
 		Specified Region from DEM Geotif Image region 	
 """
 # cd /Volumes/Transcend/LandsatETM
 # displacement.py ELP108R032_7T20020630 new_utm.tif
+# displacement.py LE71080322002261HAJ00 new_utm.tif
 
 import sys
 import os
@@ -43,6 +44,8 @@ list=os.listdir('.')
 for name in list:
   if name.find('.met')!=-1:
     fname=name[:-4]
+  if name.find('_MTL.txt')!=-1:
+    fname=name[:-8]
 
 flag=1
 sat=ut.original(fname)
@@ -50,6 +53,7 @@ if flag:
   print sat.jmax,sat.imax
   print sat.xs,sat.dx
   print sat.ye,sat.dy
+  print sat.sun_el,sat.sun_az
   print sat.offset
   print sat.gain
 

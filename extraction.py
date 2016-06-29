@@ -7,6 +7,7 @@
 """
 # cd /Volumes/Transcend/LandsatETM+
 # extraction.py ELP108R032_7T20020630 template.txt NEW2 0.0 0.0
+# extraction.py LE71080322002261HAJ00 template.txt NEW2 0.0 0.0
 
 import sys
 import os
@@ -49,13 +50,16 @@ xmax=int((pr.xe-pr.xs)/pr.dx)
 ymax=int((pr.ye-pr.ys)/pr.dy)
 print xmax,ymax
 
-#fold='ELP108R032_7T20020630'
+#fscene='ELP108R032_7T20020630'
+#fscene='LE71080322002261HAJ00'
 os.chdir(fscene)
 
 list=os.listdir('.')
 for name in list:
   if name.find('.met')!=-1:
     fname=name[:-4]
+  if name.find('_MTL.txt')!=-1:
+    fname=name[:-8]
 
 flag=1
 sat=ut.original(fname)

@@ -16,7 +16,10 @@ import proj_util as pr
 class original:
   def __init__(self,fname):
     self.name=fname
-    f=open(fname+'.met','r')
+    if fname.find('LE7') != -1:
+      f=open(fname+'_MTL.txt','r')
+    else:
+      f=open(fname+'.met','r')
     lines=f.readlines()
     f.close()
     lmax=[]
@@ -26,33 +29,36 @@ class original:
         self.sun_az=float(line.split()[2])
       if line.find('SUN_ELEVATION') != -1:
         self.sun_el=float(line.split()[2])
-      if line.find('LMAX_BAND1') != -1:
+      if line.find('LMAX_BAND1') != -1 or line.find('MAXIMUM_BAND_1') != -1:
         lmax.append(float(line.split()[2]))
-      if line.find('LMIN_BAND1') != -1:
+      if line.find('LMIN_BAND1') != -1 or line.find('MINIMUM_BAND_1') != -1:
         lmin.append(float(line.split()[2]))
-      if line.find('LMAX_BAND2') != -1:
+      if line.find('LMAX_BAND2') != -1 or line.find('MAXIMUM_BAND_2') != -1:
         lmax.append(float(line.split()[2]))
-      if line.find('LMIN_BAND2') != -1:
+      if line.find('LMIN_BAND2') != -1 or line.find('MINIMUM_BAND_2') != -1:
         lmin.append(float(line.split()[2]))
-      if line.find('LMAX_BAND3') != -1:
+      if line.find('LMAX_BAND3') != -1 or line.find('MAXIMUM_BAND_3') != -1:
         lmax.append(float(line.split()[2]))
-      if line.find('LMIN_BAND3') != -1:
+      if line.find('LMIN_BAND3') != -1 or line.find('MINIMUM_BAND_3') != -1:
         lmin.append(float(line.split()[2]))
-      if line.find('LMAX_BAND4') != -1:
+      if line.find('LMAX_BAND4') != -1 or line.find('MAXIMUM_BAND_4') != -1:
         lmax.append(float(line.split()[2]))
-      if line.find('LMIN_BAND4') != -1:
+      if line.find('LMIN_BAND4') != -1 or line.find('MINIMUM_BAND_4') != -1:
         lmin.append(float(line.split()[2]))
-      if line.find('LMAX_BAND5') != -1:
+      if line.find('LMAX_BAND5') != -1 or line.find('MAXIMUM_BAND_5') != -1:
         lmax.append(float(line.split()[2]))
-      if line.find('LMIN_BAND5') != -1:
+      if line.find('LMIN_BAND5') != -1 or line.find('MINIMUM_BAND_5') != -1:
         lmin.append(float(line.split()[2]))
-      if line.find('LMAX_BAND7') != -1:
+      if line.find('LMAX_BAND7') != -1 or line.find('MAXIMUM_BAND_7') != -1:
         lmax.append(float(line.split()[2]))
-      if line.find('LMIN_BAND7') != -1:
+      if line.find('LMIN_BAND7') != -1 or line.find('MINIMUM_BAND_7') != -1:
         lmin.append(float(line.split()[2]))
     self.offset=lmin[0:6]
     self.gain=[(x-y)/255.0 for (x,y) in zip(lmax[0:6],lmin[0:6])]
-    fname=self.name+'_z54_nn10.tif'
+    if self.name.find('LE7') !=-1 :
+      fname=self.name+'_B1.TIF'
+    else:
+      fname=self.name+'_z54_nn10.tif'
     gt,wkt,image=pr.read_tif(fname)
     self.image=image
     self.jmax,self.imax=image.shape
@@ -68,7 +74,10 @@ class original:
     self.angle=0.0
     self.hsat=691650.00
   def read_band(self,band):
-    fname=self.name+'_z54_nn'+str(band)+'.tif'
+    if self.name.find('LE7') !=-1 :
+      fname=self.name+'_B'+str(band/10)+'.TIF'
+    else:
+      fname=self.name+'_z54_nn'+str(band)+'.tif'
     gt,wkt,image=pr.read_tif(fname)
     self.image=image
   def display(self,name,xmax,ymax):
